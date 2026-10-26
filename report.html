@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오픽 IH 공략 정리</title>
+<meta name="description" content="유튜브 조회수 상위 오픽 영상 35개의 자막을 분석해 IH를 받는 공통 전략을 정리한 보고서">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1c1f24; --muted:#5b6370; --line:#e3e6ea;
+  --accent:#1f6feb; --accent-soft:#e8f0fe; --good:#1a7f4b; --good-soft:#e6f4ec;
+  --warn:#b4530a; --warn-soft:#fff1e3; --bad:#b42318; --bad-soft:#fdecea;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1115; --card:#181b21; --ink:#e8eaee; --muted:#9aa3b2; --line:#2a2f38;
+    --accent:#6ea8ff; --accent-soft:#1a2740; --good:#5fd38d; --good-soft:#15291d;
+    --warn:#f0a35e; --warn-soft:#33220f; --bad:#ff8a80; --bad-soft:#3a1a18;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1115; --card:#181b21; --ink:#e8eaee; --muted:#9aa3b2; --line:#2a2f38;
+  --accent:#6ea8ff; --accent-soft:#1a2740; --good:#5fd38d; --good-soft:#15291d;
+  --warn:#f0a35e; --warn-soft:#33220f; --bad:#ff8a80; --bad-soft:#3a1a18;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;line-height:1.65;font-size:16px}
+.wrap{max-width:960px;margin:0 auto;padding:32px 16px 80px}
+header{margin-bottom:28px}
+h1{font-size:30px;line-height:1.25;margin:0 0 8px}
+h2{font-size:22px;margin:40px 0 14px;padding-top:8px;border-top:2px solid var(--line)}
+h3{font-size:17px;margin:22px 0 8px}
+p{margin:0 0 12px}
+.sub{color:var(--muted);font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:14px;margin-top:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:12px 0}
+.hero{background:var(--accent-soft);border-color:transparent}
+.hero .big{font-size:20px;font-weight:700;line-height:1.5;margin:0 0 10px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.step b{display:block;color:var(--accent);font-size:13px;letter-spacing:.02em;margin-bottom:4px}
+.rank{display:flex;gap:14px;align-items:flex-start}
+.rank .n{flex:0 0 44px;height:44px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center}
+.rank h3{margin:2px 0 6px}
+.rank .who{font-size:13px;color:var(--muted);margin-top:8px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:8px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.cnt{font-size:13px;color:var(--muted)}
+ul{margin:6px 0 10px;padding-left:20px}
+li{margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+th,td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;margin-right:4px}
+.tag.good{background:var(--good-soft);color:var(--good)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)}
+.tag.acc{background:var(--accent-soft);color:var(--accent)}
+.en{font-family:var(--mono);font-size:14px;background:var(--bg);padding:2px 6px;border-radius:5px}
+.ex{background:var(--bg);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:8px 0;font-size:15px}
+.ex .k{color:var(--muted);font-size:13px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.note{font-size:14px;color:var(--muted)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vs>div{padding:12px 14px;border-radius:10px;border:1px solid var(--line)}
+.vs .im{background:var(--bad-soft)} .vs .ih{background:var(--good-soft)}
+.vs b{display:block;margin-bottom:6px}
+@media (max-width:600px){ .vs{grid-template-columns:1fr} h1{font-size:25px} th:nth-child(5),td:nth-child(5){display:none} }
+details{margin:8px 0}
+summary{cursor:pointer;font-weight:600}
+.small{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>오픽 IH, 유튜브 상위 영상 35개가 공통으로 말하는 것</h1>
+  <p class="sub">"오픽 IH 받는 법", "오픽 시험 잘 보는 법", "오픽 IH 따는 법" 등 8개 검색어로 조회수순 검색 → 상위 영상 35개의 자막을 전부 읽고 공통 전략을 뽑았습니다.</p>
+  <div class="meta">
+    <span>작성일 2026-10-26</span>
+    <span>조회수 합계 약 1,570만</span>
+    <span>채널 14개 (오픽노잼 16편, 제인서 4편, 강지완 3편, 해커스 2편 외)</span>
+  </div>
+</header>
+
+<div class="card hero">
+  <p class="big">IH 공식 한 줄: 질문을 두 번 듣고, 30초 안에 결론(메인 포인트)을 말하고, 그 한 가지에 대한 내 감정과 이유만 1분 안에 풀고, 한 문장으로 끝낸다. 중간에 침묵 없이, 외운 티 없이.</p>
+  <p class="note">35개 영상 중 19개가 "두괄식·메인 포인트", 19개가 "한 가지 + 감정", 13개가 "스크립트 암기 금지", 13개가 "필러로 끊김 없애기"를 말합니다. 영어 실력보다 답변 구조를 바꿔서 IM2에서 IH로 올라간 사례가 여러 편(양지, 주책임, 나니, 오픽노잼 학생들)이라는 점이 핵심입니다.</p>
+  <div class="steps">
+    <div class="step"><b>0~5초</b>질문 2번 듣기. 두 번째 들을 때 "주제 + 유형(묘사/습관/경험/비교)"과 메인 포인트를 정한다.</div>
+    <div class="step"><b>~30초</b>메인 포인트: 무엇(What) + 감정(Feeling) + 이유(Why). 쉬운 단어로.</div>
+    <div class="step"><b>~1분 20초</b>바디: 그 한 가지만 더 깊게. 감정과 이유를 다른 말로 반복, 짧은 예시 하나.</div>
+    <div class="step"><b>마무리</b>"So overall…" 한두 문장. 흐지부지 끝내지 않는다.</div>
+  </div>
+</div>
+
+<h2>1. 공통점 랭킹 (언급한 영상 수 기준)</h2>
+<p class="note">35개 영상 중 몇 편이 같은 말을 했는지 세었습니다. 만능문장 반복 재생 영상 2편(아무튼영어, 강지완 150문장)과 실제 답변 시연 영상 3편(해커스 AL, Haeri Kim, 세라)은 "전략 설명"이 없어 집계 대상에서 빠졌습니다.</p>
+
+<div class="card rank"><div class="n">1</div><div style="flex:1">
+  <h3>두괄식: 메인 포인트를 30초 안에 먼저 던진다</h3>
+  <div class="bar"><i style="width:63%"></i></div><div class="cnt">19 / 30편</div>
+  <p>오픽노잼의 "MP(메인 포인트) → Body → Conclusion", 해커스 클로이의 "MBC(Main idea·Body·Conclusion)", 강지완의 "서론·본론·결론 단락 단위", 리윤·양지·영끌오픽·주책임의 "두괄식"이 전부 같은 말입니다. 채점자가 첫 30초 안에 "이 사람이 뭘 말하려는지" 알 수 있어야 하고, 첫 30초가 나쁘면 나머지도 낮게 평가될 확률이 높다는 설명이 반복됩니다.</p>
+  <ul>
+    <li>오픽노잼 Rule #7: "솔직한 변명(기억 잘 안 나는데…)"은 앞이 아니라 뒤에서. 바로 본론부터.</li>
+    <li>주책임(IM2 → IH → AL): IM2 답변은 "질문의 요지를 못 잡고 주제 단어만 듣고 아무 말"을 하고 있었다. AL 답변은 영어 수준이 아니라 구성이 달랐다.</li>
+    <li>AL 목표면 메인 포인트를 20초 안에 (오픽노잼).</li>
+  </ul>
+  <div class="who">오픽노잼(13편) · 해커스 클로이 · 강지완 · 영끌오픽 · 리윤 · 양지 · 주책임</div>
+</div></div>
+
+<div class="card rank"><div class="n">2</div><div style="flex:1">
+  <h3>한 가지만 말하고, 사실 나열 대신 감정과 이유로 채운다</h3>
+  <div class="bar"><i style="width:63%"></i></div><div class="cnt">19 / 30편</div>
+  <p>오픽노잼의 비유: "KIA 모닝 5대(방·부엌·거실·화장실·베란다 나열)보다 람보르기니 1대(내 침실 하나를 깊게)". 질문이 여러 가지를 물어도 한 가지만 골라 집중하고, 그것에 대해 "어떻게 느끼는지, 왜 그런지"를 말하는 것이 IH의 핵심이라고 거의 모든 채널이 말합니다.</p>
+  <ul>
+    <li>똑경이(AL): 사실 나열은 1분 채우기도 힘들고 단어도 많이 필요하다. 감정 위주면 주제가 선명해지고 시간이 쉽게 찬다.</li>
+    <li>주책임: 애매한 감정은 답변이 어렵다. "정말 좋았다" 또는 "정말 싫었다" 둘 중 하나를 극적으로 정하면 말할 거리가 늘고 듣기도 재밌다.</li>
+    <li>오픽노잼 99:1 전략: 좋은 점 99%를 충분히 말한 뒤, 할 말이 떨어지면 나쁜 점 1%를 붙이고 다시 좋은 점으로 돌아와 마무리.</li>
+    <li>질문에 예시 목록이 있으면(산 또는 바다 중) 그 안에서 하나를 고른다. 채점자가 "질문을 이해했다"고 느낀다.</li>
+  </ul>
+  <div class="who">오픽노잼(12편) · 똑경이 · 데일리도노 · 영끌오픽 · 리윤 · 양지 · 주책임 · 제인서</div>
+</div></div>
+
+<div class="card rank"><div class="n">3</div><div style="flex:1">
+  <h3>스크립트 통암기 금지. 외운 티가 나면 점수가 깎인다</h3>
+  <div class="bar"><i style="width:43%"></i></div><div class="cnt">13 / 30편 (반대 의견 2편)</div>
+  <p>주책임은 "수준 높은 만능 스크립트로 13번 시험을 봐도 계속 IH였고, 스크립트를 버리고 두괄식·감정 위주로 바꾸자 AL"이었다고 합니다. 양지는 "5일 중 이틀을 스크립트 쓰는 데 써서 IM2, 키워드·에피소드만 정해 놓고 모의고사를 돌리니 IH"였습니다.</p>
+  <ul>
+    <li>대안: 한국어로 "무슨 에피소드를 말할지"만 정리 → 키워드만 기억 → 영어로 매번 조금씩 다르게 말하는 연습 (데일리도노, 영끌오픽, 양지, 제인서).</li>
+    <li>오픽노잼: 준비한 질문이라고 갑자기 빠르고 매끄럽게 시작하면 바로 티가 난다. 자신 있어도 처음은 천천히, 생각하는 모습으로 시작하고 뒤로 갈수록 속도를 올린다.</li>
+    <li>반대 의견: 주야TV, 리윤은 "노베이스는 스크립트 없이는 불가능하다"며 스크립트를 쓰되, 통째로 외우지 말고 필러를 섞어 구조만 머리에 넣으라고 합니다.</li>
+  </ul>
+  <div class="who">오픽노잼(5편) · 똑경이 · 데일리도노 · 영끌오픽 · 나니 · 양지 · 주책임 · 제인서 · 강지완(진단서: 암기 답변 체크 항목)</div>
+</div></div>
+
+<div class="card rank"><div class="n">4</div><div style="flex:1">
+  <h3>침묵은 독. 필러(um, you know, and so…)로 끊김 없이 말한다</h3>
+  <div class="bar"><i style="width:43%"></i></div><div class="cnt">13 / 30편</div>
+  <p>나니(IM1→IM2→IH→AL 모두 경험)가 꼽은 IM2와 IH의 가장 큰 차이가 "필러를 많이 써서 끊김이 거의 안 느껴진다"였습니다. 오픽노잼은 "5초 이상 정적이면 안 되고, 빠르게 말하는 것과 끊기지 않게 말하는 것은 다르다"고 합니다.</p>
+  <ul>
+    <li>IH용 기본: <span class="en">um</span>, <span class="en">you know</span>, <span class="en">oh</span>, <span class="en">well</span>, <span class="en">anyway</span>. 한국식 "음…"은 금지, "um"으로.</li>
+    <li>AL용 조합(필러 콤보): <span class="en">and um</span>, <span class="en">and so</span>, <span class="en">so, you know</span>, <span class="en">but, you know, uh</span>.</li>
+    <li>필러는 "말하면서 다음 내용을 생각할 시간"을 벌어 주고, 스크립트가 아니라는 신호가 된다 (똑경이, 데일리도노).</li>
+    <li>문법이 틀려도 되돌아가서 고치지 말고 그냥 넘어간다. 고치려 할수록 끊기고 어색해진다 (나니).</li>
+  </ul>
+  <div class="who">오픽노잼(6편) · 똑경이 · 데일리도노 · 나니 · 리윤 · 주야TV · 양지 · 제인서</div>
+</div></div>
+
+<div class="card rank"><div class="n">5</div><div style="flex:1">
+  <h3>녹음해서 다시 듣기, 모의고사로 연습하기</h3>
+  <div class="bar"><i style="width:33%"></i></div><div class="cnt">10 / 30편</div>
+  <ul>
+    <li>오픽노잼: 녹음 안 하면 공부가 아니다. 첫 30초(메인 포인트)가 깔끔한지만 먼저 확인한다.</li>
+    <li>똑경이: 공부 시작 전에 유튜브 모의고사(여우오픽)를 녹음기 켜고 한 번 봐서 내 약점(단어 부족 등)부터 객관화.</li>
+    <li>양지: 제인서 모의고사를 한 문제 풀 때마다 ChatGPT 피드백. 2시간 걸리지만 어휘·문법·아이디어 구멍이 다 보인다. 모의고사 최소 5회.</li>
+    <li>제인서: ChatGPT 모바일 앱 음성 모드에 모의고사 질문을 붙여 넣고 "질문만 두 번 읽어 주고 발음·문법·표현 피드백을 한국어로" 시키는 방법.</li>
+  </ul>
+  <div class="who">오픽노잼(3편) · 똑경이 · 리윤 · 영끌오픽 · 주책임 · 양지 · 제인서 · 나니</div>
+</div></div>
+
+<div class="card rank"><div class="n">6</div><div style="flex:1">
+  <h3>난이도는 5~6, 최근 추세는 6-6</h3>
+  <div class="bar"><i style="width:27%"></i></div><div class="cnt">8 / 30편</div>
+  <p>IH 이상이면 5 또는 6을 고르라는 데는 이견이 없고, 2024~2025년 영상(오픽노잼, 제인서, 영끌오픽)은 6-6을 권합니다. 이유: 6을 고르면 질문에 예시 목록이 더 붙어서 오히려 고르기 쉽고, 질문이 길어져 준비 시간이 늘어난다. 단, 제인서는 "실력이 어느 정도 된 상태에서 6"이라고 전제를 답니다. 똑경이·데일리도노는 5로 AL을 받았습니다.</p>
+  <div class="who">오픽노잼(3편) · 제인서 · 영끌오픽 · 똑경이 · 데일리도노 · 해커스</div>
+</div></div>
+
+<div class="card rank"><div class="n">7</div><div style="flex:1">
+  <h3>문제 유형 10가지와 콤보 순서를 알고 들어간다</h3>
+  <div class="bar"><i style="width:23%"></i></div><div class="cnt">7 / 30편</div>
+  <p>제인서·주야TV는 "공부 첫날에 유형부터"라고 합니다. 한 주제가 2~3문제 묶음(콤보)으로 나오고 순서가 거의 정해져 있어서, 묘사 문제를 답하는 동안 다음에 올 경험·비교 문제의 첫 문장을 미리 떠올릴 수 있습니다.</p>
+  <ul>
+    <li>난이도 6 기준 콤보 순서 (오픽노잼 2024): 1번째 = 묘사 또는 습관, 2·3번째 = 과거 경험 또는 비교. 2번째가 비교였으면 3번째는 거의 경험.</li>
+    <li>11·12·13 = 롤플레이 세트, 14·15 = 비교·이슈 질문 (어렵고 스킵 가능).</li>
+  </ul>
+  <div class="who">제인서(3편) · 주야TV · 오픽노잼 · 해커스 클로이 · 강지완</div>
+</div></div>
+
+<div class="card rank"><div class="n">8</div><div style="flex:1">
+  <h3>인풋: 실제 AL 답변 영상을 많이 듣고 섀도잉</h3>
+  <div class="bar"><i style="width:20%"></i></div><div class="cnt">6 / 30편</div>
+  <p>양지는 "처음엔 남의 AL 영상이 나와 상관없다고 생각했는데, 5~6개를 보고 나서야 내가 왜 IM2였는지 알았다"고 합니다. 해커스 클로이는 하루 1개 섀도잉(1문장 → 2문장 → 동시에, 억양과 강세까지 똑같이)을 권합니다.</p>
+  <div class="who">양지 · 똑경이 · 해커스 클로이 · 제인서 · 리윤 · 주야TV</div>
+</div></div>
+
+<div class="card rank"><div class="n">9</div><div style="flex:1">
+  <h3>서베이는 "백수 전략" + 비슷한 주제 묶기</h3>
+  <div class="bar"><i style="width:17%"></i></div><div class="cnt">5 / 30편</div>
+  <ul>
+    <li>일 경험 없음 · 학생 아님 · 수강 5년 이상 지남 → 직장·전공 관련 어려운 질문이 빠진다. 답변에서 "나는 학생이다"라고 말해도 대조하지 않는다 (데일리도노).</li>
+    <li>한 답변으로 돌려 쓸 수 있게 묶기: 공원·캠핑·해변 / 조깅·걷기·하이킹·자전거 / 영화·공연·콘서트 / 집에서 휴가·국내여행·해외여행.</li>
+    <li>단, 정말 경험이 없는 주제(캠핑 등)는 빼고 내가 할 말이 많은 주제(쇼핑 등)로 바꾼다 (리윤, 데일리도노).</li>
+  </ul>
+  <div class="who">똑경이 · 데일리도노 · 리윤 · 제인서 · 주야TV</div>
+</div></div>
+
+<div class="card rank"><div class="n">10</div><div style="flex:1">
+  <h3>롤플레이(11~13번)가 IM2와 IH를 가르는 분기점</h3>
+  <div class="bar"><i style="width:17%"></i></div><div class="cnt">5 / 30편</div>
+  <p>강지완(채점 세부진단서 기준): 같은 등급 범위에 있으면 최종 등급은 롤플레이로 결정된다. 특히 12번 "문제 상황 해결"에서 <span class="en">succeeds in addressing the situation</span>에 체크되면 IH, <span class="en">unable to resolve</span>면 IM2. 리윤도 "롤플레이가 IM2/IH 기준점"이라고 들었다고 합니다.</p>
+  <div class="who">강지완 · 리윤 · 오픽노잼(2편) · 해커스 클로이</div>
+</div></div>
+
+<div class="card">
+  <h3>그 밖에 여러 번 나온 팁</h3>
+  <ul>
+    <li><b>모르는 질문은 스킵</b> (5편): 아무 말도 하지 말고 10초 기다리면 Next 버튼이 뜬다. 5개까지 스킵 가능하고, 15번을 스킵해도 IH·AL이 나온다 (오픽노잼). 횡설수설보다 낫다. 넘길 때 "영어를 못해서"가 아니라 "경험이 없어서"라고 말하고 넘긴 사례 (똑경이).</li>
+    <li><b>답변 길이</b> (5편): 묘사·습관은 1분 안, 경험·비교는 1~1.5분. 전체 40분을 꽉 채우지 말고 30~35분. 똑경이는 24분, 나니는 33분에 AL.</li>
+    <li><b>질문은 두 번 듣기</b> (4편): 5초 안에 Replay. 두 번째 들을 때 답을 구상한다.</li>
+    <li><b>마인드셋</b> (5편): 에바는 친구다. 말실수해도 멈추지 말고 뻔뻔하게. 데일리도노는 "여우주연상 받은 배우처럼", 리윤은 "오늘만큼은 원어민 퀸".</li>
+    <li><b>자기소개</b> (4편): 점수에 거의 반영 안 됨. 30초 넘게 할 거면 스킵. 하되 짧게, 뒤 질문에서 연결할 소재(커피 등) 하나만 심어 두면 플러스 (오픽노잼).</li>
+    <li><b>쉬운 단어로</b> (5편): 격식체(moreover, furthermore, in addition)는 감점 요인. 어려운 단어를 쓰려면 바로 뒤에 쉬운 말로 한 번 더 (promenade → you know, a nice walking path). 리윤은 "초등 영어로 IH" 받았다.</li>
+    <li><b>한국어 금지</b>: 고유명사는 <span class="en">It's called 김밥천국 in Korean… anyway,</span> 하고 바로 다음 문장으로.</li>
+    <li><b>시제·문법</b> (4편): 과거 경험은 과거시제로 통일. 제인서는 관계사(who/which/that)·현재완료·would, 리윤은 <span class="en">There was a time when…</span>, <span class="en">The best thing is that…</span>, <span class="en">What I love the most is that…</span>, <span class="en">The reason is that…</span> 4개로 복문 점수를 챙겼다고 합니다. 단, 오픽노잼·나니는 "문법보다 의사소통, 틀려도 넘어가라".</li>
+  </ul>
+</div>
+
+<h2>2. 유형별 답변 구조 (오픽노잼 체계 + 제인서 유형 설명)</h2>
+
+<div class="card">
+  <h3>묘사 (Description) · 습관 (Habit)</h3>
+  <p>가장 쉽고 배점도 낮은 유형. 1분 안에 끝낸다. 묘사는 "무엇 + 감정 + 이유", 습관은 감정보다 행동 위주로 <span class="en">Whenever I…, I always…</span>.</p>
+  <div class="ex"><span class="k">AL 학생의 메인 포인트 예 (15초)</span><br>So I have a bike and I really like it because it's yellow, which is my favorite color.</div>
+  <div class="ex"><span class="k">같은 질문의 IM 답변</span><br>I have a bike. It's yellow. — 감정(feeling)과 이유(why)가 빠져 있다.</div>
+  <p class="note">집에 대해 물으면 집 안만, 동네 이야기로 새면 0점 취급 (오픽노잼). 너무 짧다고 느끼면 "예전엔 ~했는데 요즘은 ~" 식의 짧은 비교(quick comparison)로 늘린다.</p>
+</div>
+
+<div class="card">
+  <h3>과거 경험 (Past Experience)</h3>
+  <p>점수를 올려 주는 유형. 1~1.5분. 시간순으로 "1-2-3-4-5"를 말하지 말고 핵심 사건(5번)을 메인 포인트로 먼저 던진 뒤 세부를 붙인다.</p>
+  <ul>
+    <li>"혼자 갔다"보다 "친구·가족과 갔다"가 유리하다. 상대의 감정까지 말할 수 있어 깊이가 생긴다.</li>
+    <li>직접 인용(direct quotation)을 짧게 넣으면 과거시제 속에서 현재시제를 쓰는 능력을 보여 준다: <span class="en">And she was like, "Wow, this is amazing!"</span></li>
+    <li>언제(when)는 구체적으로 묻지 않으면 대충 "a few months ago"면 된다.</li>
+    <li>기억에 남는 경험(4번 유형)은 배점이 높다. 누가 들어도 특별한 에피소드를 준비한다. 긍정보다 "충격적·부정적" 사건이 어느 주제에나 붙이기 쉽다 (리윤).</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>비교 (Comparison)</h3>
+  <p>IH를 줄지 말지 고민하게 만드는 유형 (해커스). 구조: <b>현재(메인 포인트, 과거 언급 없이) → 과거(완전히 반대로) → 다시 현재 → 결론</b>. 이렇게 하면 대조를 두 번 보여 주게 된다.</p>
+  <div class="ex"><span class="k">예</span><br>These days I live in a pretty small place, but I love how big my washroom is. (현재) → When I lived with my parents the house was big but the washroom was tiny and I hated it. (과거, 반대) → But now, you know, I can take long showers… (현재) → So overall… (결론)</div>
+  <p class="note">영끌오픽의 시제 요령: <span class="en">Over the years, coffee shops have changed a lot in many ways.</span>로 시작해 현재완료 한 번 쓰고 바로 현재 이야기로 좁히면 시제가 섞이지 않는다.</p>
+</div>
+
+<div class="card">
+  <h3>롤플레이 11번 (질문하기)</h3>
+  <p>상대가 눈앞에 있는 것처럼 "대화"를 보여 주는 문제. 자동응답기처럼 혼자 질문만 나열하지 않는다. 1분 안에.</p>
+  <ol>
+    <li>상황 한 문장: <span class="en">Hi there, I'm calling because I want to buy a new phone.</span></li>
+    <li>질문 1: <span class="en">How much is it?</span></li>
+    <li>리액션 → 상대 답 반복 → 감정: <span class="en">Oh, that cheap? Only a thousand dollars? That's great!</span></li>
+    <li>질문 2, 3도 같은 식. 답은 전부 "yes"로. 마지막 질문은 <span class="en">Oh, I almost forgot!</span> 하고 던지면 자연스럽다.</li>
+    <li>마무리: <span class="en">Thank you so much for your help.</span></li>
+  </ol>
+  <p class="note">질문은 3개면 충분. 가격 질문을 하나 넣으면 쉬워진다 (대부분의 11번은 돈과 연결된다). 리윤의 만능 질문: <span class="en">Do you have any recommendations? / What are your business hours? / Is there parking around? / Could you text me the details?</span></p>
+</div>
+
+<div class="card">
+  <h3>롤플레이 12번 (문제 해결) · 13번 (관련 경험)</h3>
+  <ul>
+    <li>12번: 첫 질문은 거절당하는(no) 흐름, 대안 2개. <span class="en">I have something to tell you. I know we have plans on Saturday, but I don't think I can make it because something came up. How about next weekend? Or could I get a refund?</span> — 채점표의 "문제 상황을 해결했다(succeeds)"에 체크되어야 IH.</li>
+    <li>13번: 무조건 과거 경험. 문제가 있었고 해결했든 못 했든 "문제 → 해결" 구조로 답한다. 묻지 않아도 그 구조로.</li>
+    <li>appointment = 예약(사람과), reservation = 식당 등 예약(돈 내기 전), booking = 선결제 예약(항공권). 친구와의 약속은 plans.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>14·15번</h3>
+  <p>사람들·사회 이야기를 묻는 어려운 묘사·비교. 오픽노잼은 "작년부터 IH 학생들이 15번을 스킵하면 오히려 점수가 잘 나오는 경향"이라며 편하게 스킵하라고 합니다. 양지는 환경 돌발 주제에서 횡설수설해 AL을 놓쳤다며, AL 목표라면 은행·환경·기술·가구 같은 돌발 주제 아이디어를 한 번씩 정리해 두라고 합니다.</p>
+</div>
+
+<h2>3. 채점표로 본 IM2와 IH의 차이 (강지완, 세부진단서 기준)</h2>
+<div class="card">
+  <p>응시 후 3만 원을 내면 받을 수 있는 세부진단서의 체크 항목을 비교한 내용입니다.</p>
+  <div class="vs">
+    <div class="im"><b>IM2</b>
+      <ul>
+        <li>문장 단위로 말함: strings of sentences, connected sentences (접속사·관계대명사로 2~3문장 연결)</li>
+        <li>12번: 문제 상황을 해결하려 했으나 실패(unable to resolve)</li>
+        <li>감점 항목 체크: R/L·F/P 발음 혼동, 단어 강세 오류, 수 일치(one of the most famous singer<u>s</u>)</li>
+      </ul>
+    </div>
+    <div class="ih"><b>IH</b>
+      <ul>
+        <li>단락 단위로 말함: skeletal paragraph (서론·본론·결론). 특히 2·5·8번 묘사 문제에서 측정</li>
+        <li>12번: 어려움을 겪지만 상황 해결에 성공(succeeds)</li>
+        <li>감점 항목 모두 비어 있음</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">시제·동사형·논리 흐름 항목은 IM2와 IH 사이에 큰 차이가 없었다고 합니다. 즉 차이는 "구조"와 "롤플레이"와 "감점 회피"입니다.</p>
+</div>
+
+<h2>4. IH에서 AL로 가는 차이 (참고)</h2>
+<div class="card">
+  <ul>
+    <li>메인 포인트 30초 → 20초 (오픽노잼).</li>
+    <li>단일 필러 → 필러 콤보(and um, and so). 감정 단어도 "I was so happy" 수준에서 "I had a blast / It was epic / unbelievably amazing"으로.</li>
+    <li>IH만 계속 받는 학생의 공통 약점 (오픽노잼): 메인 포인트 뒤에 한 문장만 하고 결론으로 가 버린다(깊이 부족), 평일/주말을 반반 말한다(초점 분산), 대명사·대조·다른 사람 이야기가 없다.</li>
+    <li>나니: IH와 AL의 차이는 말 속도와 문장 구조의 다양성, 그리고 즉석에서 답하는 느낌.</li>
+    <li>질문끼리 연결하기: "아까도 말했듯이(like I said)" 하고 앞 답변을 끌어오면 스크립트가 아니라는 신호 + 콤보 3문제를 하나의 대화처럼 들리게 한다 (오픽노잼 AL 학생).</li>
+  </ul>
+</div>
+
+<h2>5. 바로 쓰는 표현 모음</h2>
+<div class="two">
+  <div class="card">
+    <h3>시작·메인 포인트</h3>
+    <ul>
+      <li><span class="en">Oh, this question is so my thing. You know, I'm a big fan of…</span></li>
+      <li><span class="en">Well, let me think… Oh yeah, I remember…</span> (생각하는 모습)</li>
+      <li><span class="en">You know, I once went to this park, and wow, it was amazing because…</span></li>
+      <li><span class="en">I think… / I feel like… / I felt like… / That's why…</span> (IM 탈출 3표현)</li>
+      <li><span class="en">There was a time when I…</span> (경험 시작)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>감정 단어</h3>
+    <ul>
+      <li>IH: <span class="en">so happy / so excited / really relaxed / so annoyed / frustrated / super convenient</span></li>
+      <li>AL: <span class="en">I had a blast / It was epic / unbelievably amazing / It gave me goosebumps / It made me feel like I was in paradise</span></li>
+      <li>단어가 안 떠오르면 비유로: <span class="en">It feels like… / It seemed like… / I felt like an ant.</span></li>
+      <li>감정 단어는 길게 늘여 말한다: <span class="en">I looove my bedroom sooo much.</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>필러·연결</h3>
+    <ul>
+      <li><span class="en">um / uh / you know / well / oh / like</span></li>
+      <li>콤보: <span class="en">and um / and so / so, you know / but, you know, uh</span></li>
+      <li>다시 시작할 때: <span class="en">Anyway, …</span></li>
+      <li>대조: <span class="en">But on weekends, …</span> / 99:1: <span class="en">But one thing I don't like is… But other than that, …</span></li>
+      <li>한국어 고유명사: <span class="en">It's called ○○ in Korean… anyway,</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>마무리</h3>
+    <ul>
+      <li><span class="en">So overall, …</span> (가장 무난)</li>
+      <li><span class="en">That's why I like them. / Yeah, that's pretty much it.</span></li>
+      <li><span class="en">That's all for this question. What about you, Ava?</span> (해커스: 되묻기)</li>
+      <li><span class="en">Why don't we go to the movies sometime?</span> (해커스: 제안)</li>
+      <li>유머 한 줄: <span class="en">So if you ever come to Korea, come in spring, or you're just wasting your money.</span></li>
+    </ul>
+  </div>
+</div>
+
+<h2>6. 2주 학습 플랜 제안</h2>
+<div class="card">
+  <p class="note">여러 영상의 순서를 합쳐 정리한 제안입니다. 똑경이는 순공 19시간, 양지는 4일, 주야TV는 2주, 리윤은 10일을 썼습니다.</p>
+  <table>
+    <tr><th>단계</th><th>할 일</th><th>근거 영상</th></tr>
+    <tr><td>1일차</td><td>유형 10가지와 콤보 순서 파악. 서베이 12개와 난이도(6-6 또는 5-5) 정하기. 유튜브 모의고사 1회를 녹음해 내 약점 확인.</td><td>제인서, 주야TV, 똑경이</td></tr>
+    <tr><td>2~4일차</td><td>메인 포인트만 연습: 기출 10개 질문에 "무엇 + 감정 + 이유" 한두 문장으로 20~30초 안에 답하기. 다른 건 신경 쓰지 않는다.</td><td>오픽노잼 (IM 시리즈 017·019)</td></tr>
+    <tr><td>5~8일차</td><td>주제별로 한국어 키워드·에피소드 정리(스크립트 통암기 금지). 묘사·습관·경험·비교 구조로 1분 답변 녹음 → 듣고 고치기. 실제 AL 답변 영상 5~6개 분석.</td><td>데일리도노, 영끌오픽, 양지</td></tr>
+    <tr><td>9~10일차</td><td>롤플레이 11·12·13 템플릿 연습 (3질문 + 반복 + 감정, 문제 해결 대안 2개). 1분 안에.</td><td>오픽노잼, 리윤, 강지완</td></tr>
+    <tr><td>11~13일차</td><td>모의고사 3~5회 전체 풀기 + ChatGPT 피드백. 낯선 돌발 주제(헤드폰, 시계, 은행)로도 전략대로 답할 수 있으면 준비 완료.</td><td>양지, 제인서, 오픽노잼</td></tr>
+    <tr><td>시험 당일</td><td>질문 2번 듣기. 모르면 스킵. 자기소개 30초. 전체 30~35분. 에바는 친구.</td><td>공통</td></tr>
+  </table>
+</div>
+
+<h2>7. 시험 정보 (영상에서 언급된 내용)</h2>
+<div class="card">
+  <ul>
+    <li>총 60분: 오리엔테이션 20분(서베이·난이도·샘플) + 본시험 40분. 12~15문제, 문항별 제한시간 없음.</li>
+    <li>응시료: 84,000원 (똑경이, 2024년 기준). 대학연합 오픽은 69,000원(재학증명서 지참), 통신사 멤버십 5%, 강사 배포 할인코드.</li>
+    <li>거의 매일 시험이 있고 이틀 전까지 접수. 공채 시즌엔 2~3일 내 조기 발표 회차가 있다.</li>
+    <li>결과 후 세부진단서(3만 원)를 사면 체크된 감점·구조 항목을 볼 수 있다 (강지완).</li>
+    <li>최근 변화 (오픽노잼 2024): 같은 주제가 콤보와 롤플레이에 다시 나오는 "토픽 믹싱"이 보인다. CS·미용실·헤어컷 같은 돌발도 등장.</li>
+  </ul>
+  <p class="note">금액과 제도는 영상 시점 기준이라 응시 전에 공식 사이트에서 확인이 필요합니다.</p>
+</div>
+
+<h2>8. 분석한 영상 35개 (조회수순)</h2>
+<div class="card">
+  <table id="vt">
+    <thead><tr><th>#</th><th>제목</th><th>채널</th><th class="num">조회수</th><th>게시</th><th>길이</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <p class="small">조회수는 2026-10-26 기준. 표기 ★는 전략 설명 없이 문장 반복 재생 또는 실제 답변 시연만 있는 영상.</p>
+</div>
+
+<h2>9. 조사 방법과 한계</h2>
+<div class="card">
+  <ul>
+    <li>검색어 8개: 오픽 IH 점수 잘 받는 법 / 오픽 IH 받는법 / 오픽 IH 공부법 / 오픽 IH 독학 / 오픽 점수 잘 받는 법 / 오픽 IH 꿀팁 / 오픽 시험 잘 보는 법 / 오픽 IH 따는 법 / 오픽 IH. 각각 유튜브 "조회수" 정렬로 결과를 모은 뒤 토익스피킹·브이로그·일반 영어회화 영상을 뺐습니다.</li>
+    <li>영상마다 유튜브 자막(대부분 자동 생성)을 받아 전부 읽었습니다. 2018~2020년 영상의 한국어 자동 자막은 오인식이 많아, 반복해서 나오는 주장만 공통점으로 집계했습니다.</li>
+    <li>"언급 수"는 자막 안에서 해당 전략을 명시한 영상을 센 것이고, 제 해석이 섞여 있습니다. 같은 채널(오픽노잼 16편)의 비중이 커서 그 채널의 체계가 랭킹 1~4위에 강하게 반영되어 있습니다.</li>
+  </ul>
+</div>
+
+</div>
+<script>
+const V = [{"id": "1bKHC-fV4ak", "t": "오픽 독학 벼락치기 만능답변연습 오픽점수 IH, AL일주일 공부", "c": "아무튼영어 토익", "v": 1028145, "d": "2021-10-14", "m": 19, "s": 1}, {"id": "X1BXdhgUeUs", "t": "오픽 이 영상 하나로 선택주제 끝 만능150문장 답변 연속재생", "c": "강지완오픽TV", "v": 1020560, "d": "2022-08-07", "m": 79, "s": 1}, {"id": "1HN93-WqAds", "t": "영어 못해도 짧은 문장으로 IH 받기! | 오픽 1:1 가이드 001", "c": "오픽노잼", "v": 894281, "d": "2018-08-12", "m": 10}, {"id": "q0v6YretDqQ", "t": "오픽 IM/IH를 벗어나는 Rule #7 | IM 시리즈 003", "c": "오픽노잼", "v": 858349, "d": "2019-04-03", "m": 15}, {"id": "8mL5PRcVo3k", "t": "오픽 시험전에 꼭 봐야할 총 정리 영상 | IM 시리즈 014", "c": "오픽노잼", "v": 754832, "d": "2019-07-28", "m": 13}, {"id": "D4O4DrlGHBc", "t": "오픽 AL 실제 시험 영상! 쉬운 답변으로 AL 받는 법", "c": "해커스TV", "v": 739404, "d": "2023-06-08", "m": 50, "s": 1}, {"id": "yT99smeHg24", "t": "오픽에서 가장 중요한 영어 공부 방법 2가지 | IM 시리즈 017", "c": "오픽노잼", "v": 734916, "d": "2019-10-27", "m": 14}, {"id": "kfI2wOKhfvI", "t": "이거 하나로 오픽 IH/AL 겁나 쉽게 받기! | 오픽 외국인편 001", "c": "오픽노잼", "v": 671204, "d": "2018-08-01", "m": 13}, {"id": "IYSZeoYMsaw", "t": "#11 롤플레이 이 영상 하나로 실력을 높일수 있다?! | 오픽 1:1 가이드 006", "c": "오픽노잼", "v": 648358, "d": "2019-02-20", "m": 9}, {"id": "tiLY_fJQDj8", "t": "자기소개를 안해도 IH/AL 가능한가요? | 오픽 1:1 가이드 002", "c": "오픽노잼", "v": 582200, "d": "2018-10-01", "m": 9}, {"id": "xXHeycTraTI", "t": "2025년 오픽 AL 20분 컷! 국내파 실제답변 (+무료 스크립트)", "c": "Haeri Kim", "v": 559378, "d": "2025-03-09", "m": 17, "s": 1}, {"id": "cT3blUGhmRs", "t": "19시간 독학으로 오픽 AL 받은 방법 (오픽 A to Z)", "c": "똑경이", "v": 547314, "d": "2024-03-05", "m": 26}, {"id": "EOPpAJzePgo", "t": "IM2 받았다고 기뻐하지 마세요. IH 분명히 받을수 있었어요! | IM 시리즈 016", "c": "오픽노잼", "v": 460171, "d": "2019-09-08", "m": 21}, {"id": "9-E2VOnUVLk", "t": "[1편] 이거 모르면 오픽시험 일단 좀 미루세요", "c": "제인서의 이지오픽", "v": 445748, "d": "2022-06-20", "m": 10}, {"id": "VB_0XOmqfAA", "t": "오픽노잼 영상 딱 하나만 봐야 한다면 이거 꼭 보세요!! (feat. 모의고사 2)", "c": "오픽노잼", "v": 442687, "d": "2024-03-14", "m": 29}, {"id": "AiEzJGrP6rA", "t": "날씨콤보, IH/AL 정말 차이가 모지? | 오픽 1:1 가이드 010", "c": "오픽노잼", "v": 422794, "d": "2019-03-24", "m": 14}, {"id": "J-wgXZffhhg", "t": "이 영상 보면 오픽 공부 방법을 바꾸게 됨 | IM 시리즈 019", "c": "오픽노잼", "v": 370734, "d": "2020-04-05", "m": 10}, {"id": "HRr8feZmp10", "t": "오픽(OPIc) 3일 공부하고 AL 받은 썰 푼다 | 공부법 + 시험후기 + 꿀팁", "c": "데일리도노", "v": 351210, "d": "2022-04-22", "m": 22}, {"id": "jqRFErebMKg", "t": "제발 이 모의고사 + 실전 꿀팁 영상 보고 시험보세요 | 왕초보 오픽 10", "c": "오픽노잼", "v": 327169, "d": "2024-02-25", "m": 40}, {"id": "BPzGZ0_nMi0", "t": "[오픽 101] 오픽기출문제 답변 총정리 & 오픽IH, AL만능답변", "c": "강지완오픽TV", "v": 318444, "d": "2022-02-23", "m": 79, "s": 1}, {"id": "Jj8hzv-j5LE", "t": "오픽, 어떤 시험인가요? 입문자를 위한 15분 총정리! | 해커스오픽 클로이", "c": "해커스TV", "v": 303643, "d": "2023-07-31", "m": 15}, {"id": "rED8gQsF46I", "t": "IH - AL 갈 수 있는 복잡한 질문에 대한 대답방법! | 오픽 1:1 가이드 013", "c": "오픽노잼", "v": 291634, "d": "2019-04-14", "m": 18}, {"id": "3NOlORJc4E4", "t": "오픽 IH-AL 실제 답변 (대본X) | 난이도 5-6", "c": "세라 잉글리쉬", "v": 285454, "d": "2024-12-06", "m": 9, "s": 1}, {"id": "ssiMBTmep2c", "t": "3일 벼락치기로 오픽 AL 가능? 독학 한다면 딱 이렇게 해보세요.", "c": "제인서의 이지오픽", "v": 271056, "d": "2025-03-17", "m": 28}, {"id": "DBTqGtMqN0I", "t": "오픽 IM1, IM2, IH, AL 다 받은 사람의 실제 답변 비교+팁", "c": "나니의 젊은이 일기", "v": 243432, "d": "2020-04-25", "m": 19}, {"id": "LMfhERYWi0M", "t": "이렇게 하면 IM1에 바로 IH로 올라갑니다! | 오픽 1:1 가이드 029", "c": "오픽노잼", "v": 227352, "d": "2024-04-28", "m": 13}, {"id": "Du1991kKS3M", "t": "계속 오픽 IH만 받는 학생 단점 찾아보기! | 오픽 1:1 가이드 012", "c": "오픽노잼", "v": 210538, "d": "2019-04-10", "m": 13}, {"id": "69zizdda11s", "t": "조금은 킹 받지만 확실한 IH 꿀팁 | 왕초보 오픽 07", "c": "오픽노잼", "v": 185709, "d": "2023-12-04", "m": 12}, {"id": "OSkbM4q-sO0", "t": "독학으로 오픽 AL 받는법 - 벼락치기 필수영상 (IH에서 AL)", "c": "영끌오픽", "v": 185544, "d": "2024-07-18", "m": 11}, {"id": "qgkdiB2x18E", "t": "오픽 독학 | 노베이스가 2주만에 IH 받는 5가지 방법", "c": "주야TV", "v": 181029, "d": "2020-03-28", "m": 13}, {"id": "FxxspPejoNY", "t": "to부정사도 모르던 노베가 오픽 IH 받은 방법 | 1트 실전 꼼수 공개", "c": "리윤 Riyoon", "v": 108495, "d": "2026-03-08", "m": 21}, {"id": "c10fjqrRMzA", "t": "오픽 전략만 바꿨더니 IM2 → IH | 4일컷 독학 공부법", "c": "양지 Yangji", "v": 78701, "d": "2025-10-18", "m": 7}, {"id": "BLOLtPcw33s", "t": "오픽채점자의 IM2와 IH로 나누는 3가지 확실한 채점기준", "c": "강지완오픽TV", "v": 63795, "d": "2023-12-11", "m": 11}, {"id": "GBtw14fHDs8", "t": "시간 없으신 오픽러들? 쉽고 빠르게 오픽 IH를 원하신다면 이렇게만 하세요", "c": "제인서의 이지오픽", "v": 61892, "d": "2025-03-31", "m": 10}, {"id": "_38Au_sIJhM", "t": "오픽 IM2 IH AL 실제 답변 | 오픽 점수 차이는 '이것'에서 갈립니다", "c": "주책임", "v": 28636, "d": "2025-03-14", "m": 21}];
+const fmt = v => v >= 10000 ? (v/10000).toFixed(v>=1000000?0:1).replace(/\.0$/,'') + '만' : v.toLocaleString();
+const tb = document.querySelector('#vt tbody');
+V.forEach((r,i)=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML = `<td class="num">${i+1}</td><td><a href="https://www.youtube.com/watch?v=${r.id}" target="_blank" rel="noopener">${r.t}</a>${r.s?' <span class="tag warn">★</span>':''}</td><td>${r.c}</td><td class="num">${fmt(r.v)}</td><td>${r.d}</td><td>${r.m}분</td>`;
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>

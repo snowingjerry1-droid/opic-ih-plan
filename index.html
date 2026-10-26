@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오픽 IH 3주 플랜</title>
+<meta name="description" content="틀은 고정하고 내 에피소드로 프리토킹하는 방식의 21일 오픽 IH 학습 계획. 진도 체크와 소재 은행 포함.">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --ink:#1c1f24; --muted:#5b6370; --line:#e3e6ea;
+  --accent:#1f6feb; --accent-soft:#e8f0fe; --good:#1a7f4b; --good-soft:#e6f4ec;
+  --warn:#b4530a; --warn-soft:#fff1e3; --bad:#b42318; --bad-soft:#fdecea;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1115; --card:#181b21; --ink:#e8eaee; --muted:#9aa3b2; --line:#2a2f38;
+    --accent:#6ea8ff; --accent-soft:#1a2740; --good:#5fd38d; --good-soft:#15291d;
+    --warn:#f0a35e; --warn-soft:#33220f; --bad:#ff8a80; --bad-soft:#3a1a18;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1115; --card:#181b21; --ink:#e8eaee; --muted:#9aa3b2; --line:#2a2f38;
+  --accent:#6ea8ff; --accent-soft:#1a2740; --good:#5fd38d; --good-soft:#15291d;
+  --warn:#f0a35e; --warn-soft:#33220f; --bad:#ff8a80; --bad-soft:#3a1a18;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;line-height:1.65;font-size:16px}
+.wrap{max-width:960px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:30px;line-height:1.25;margin:0 0 8px}
+h2{font-size:22px;margin:40px 0 14px;padding-top:8px;border-top:2px solid var(--line)}
+h3{font-size:17px;margin:18px 0 8px}
+p{margin:0 0 12px}
+.sub{color:var(--muted);font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:14px;margin-top:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:12px 0}
+.hero{background:var(--accent-soft);border-color:transparent}
+.hero .big{font-size:19px;font-weight:700;line-height:1.5;margin:0 0 10px}
+.note{font-size:14px;color:var(--muted)}
+ul,ol{margin:6px 0 10px;padding-left:20px}
+li{margin:4px 0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.en{font-family:var(--mono);font-size:14px;background:var(--bg);padding:2px 6px;border-radius:5px}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;margin-right:4px;vertical-align:middle}
+.tag.good{background:var(--good-soft);color:var(--good)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)}
+.tag.acc{background:var(--accent-soft);color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.week{margin-top:28px}
+.week h3{font-size:19px;margin:0 0 4px}
+.week .goal{color:var(--muted);font-size:14px;margin-bottom:10px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0;display:grid;grid-template-columns:auto 1fr;gap:12px}
+.day.done{opacity:.6}
+.day .chk{padding-top:4px}
+.day .chk input{width:22px;height:22px;accent-color:var(--good);cursor:pointer}
+.day .t{font-weight:700;font-size:16px;margin:0 0 4px}
+.day .t small{font-weight:500;color:var(--muted);margin-left:8px;font-size:13px}
+.day ul{margin:4px 0 6px}
+.day .mat{font-size:13px;color:var(--muted);margin-top:6px}
+.progress{display:flex;align-items:center;gap:12px;margin:10px 0 4px}
+.bar{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);width:0;transition:width .2s}
+textarea{width:100%;min-height:64px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);padding:8px 10px;font:inherit;font-size:14px;resize:vertical}
+.bank th:first-child,.bank td:first-child{width:110px;font-weight:600}
+.cl label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+.cl input{margin-top:5px;accent-color:var(--good)}
+.ex{background:var(--bg);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:8px 0;font-size:15px}
+.ex .k{color:var(--muted);font-size:13px}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
+@media (max-width:600px){ h1{font-size:25px} .day{grid-template-columns:auto 1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>오픽 IH 3주 플랜: 틀은 고정, 말은 매번 다르게</h1>
+  <p class="sub"><a href="report.html">유튜브 상위 영상 35개 분석 보고서</a>를 바탕으로, 안전하게 IH를 받는 것을 목표로 21일 일정을 짰습니다. 체크박스와 소재 은행 입력은 이 브라우저에 자동 저장됩니다.</p>
+  <div class="meta"><span>작성일 2026-10-26</span><span>목표 IH (AL은 덤)</span><span>평일 60분 · 주말 90~120분</span></div>
+</header>
+
+<div class="card hero">
+  <p class="big">방식: 답변 틀 1개를 외우고, 서베이 주제마다 내 에피소드를 한국어 키워드로만 적어 두고, 매일 녹음하면서 같은 이야기를 매번 다른 문장으로 말한다. 모범 답안은 표현을 줍는 용도로만 듣는다.</p>
+  <div class="grid">
+    <div class="card"><b>안전장치 1</b><br>난이도는 5-5가 기본. 시험은 3주차 끝(20~22일차)에 잡되, 14일차 모의고사 결과로 6-6 상향 여부와 응시일을 최종 결정한다.</div>
+    <div class="card"><b>안전장치 2</b><br>15번은 스킵을 기본값으로 둔다. 모르는 질문도 아무 말 없이 스킵. 5개까지 가능.</div>
+    <div class="card"><b>안전장치 3</b><br>영어 문장 스크립트를 쓰지 않는다. 쓰면 외우게 되고, 외운 티는 감점이다. 롤플레이 패턴만 예외.</div>
+    <div class="card"><b>안전장치 4</b><br>매일 녹음 후 체크리스트 7개로 자가 채점. 2개 이상 X가 3일 연속이면 다음 단계로 넘어가지 않고 그 항목만 하루 더.</div>
+  </div>
+</div>
+
+<h2>0. 시작 전 결정 3가지 (1일차에 끝낸다)</h2>
+<div class="card">
+  <h3>서베이 12개 (백수 전략)</h3>
+  <ul>
+    <li>직업: 일 경험 없음 · 학생 아님 · 수강 후 5년 이상 · 거주: 개인 주택/아파트에 홀로 또는 가족과.</li>
+    <li>여가: 영화 보기 · 공연 보기 · 콘서트 보기 · 공원 가기 · 해변 가기 · 카페/커피전문점 가기 (묶어서 돌려 쓰기)</li>
+    <li>취미: 음악 감상하기 · 운동: 조깅 · 걷기 · 자전거 · 휴가: 집에서 보내는 휴가 · 국내 여행</li>
+    <li>정말 경험이 없는 주제(캠핑 등)는 넣지 않는다. 대신 할 말이 많은 주제(쇼핑, 요리)로 바꾼다.</li>
+  </ul>
+  <h3>난이도</h3>
+  <p>기본값은 <b>5-5</b> (최저선 IM2, 목표 IH 기준). 중간 재선택은 "비슷한 질문". 14일차 모의고사에서 15문제 중 10개 이상이 "1분 안에 결론이 나오고 끊기지 않음"이면 6-6으로 올려도 됩니다. 자세한 이유는 아래 2-1번.</p>
+  <h3>응시일</h3>
+  <p>20~22일차 중 하루를 지금 접수합니다. 공채 시즌이면 조기 발표 회차가 유리합니다. 대학연합·통신사 할인 여부를 확인합니다.</p>
+</div>
+
+<h2>1. 매일 루틴 (60분, 순서 고정)</h2>
+<div class="card">
+  <table>
+    <tr><th>시간</th><th>할 일</th><th>포인트</th></tr>
+    <tr><td>10분</td><td><b>메인 포인트 드릴</b> 10문제</td><td>질문 듣고 20~30초 안에 "무엇 + 감정 + 이유" 한두 문장만. 바디는 하지 않는다. 그날 유형에 맞는 질문으로.</td></tr>
+    <tr><td>25분</td><td><b>1분 답변 녹음</b> 3개</td><td>소재 은행에서 꺼내 말한다. 전날 했던 질문 1개를 다시 하되 첫 문장을 일부러 바꾼다. 타이머 1분, 넘어가면 결론으로.</td></tr>
+    <tr><td>10분</td><td><b>녹음 듣고 체크리스트</b></td><td>아래 7개 항목. X가 난 항목만 다시 한 번 녹음.</td></tr>
+    <tr><td>10분</td><td><b>섀도잉 또는 표현 줍기</b></td><td>홀수일 섀도잉(억양·필러 콤보), 짝수일 AL 답변 영상 1개에서 표현 3개 뽑아 소재 은행에 적기.</td></tr>
+    <tr><td>5분</td><td><b>내일 질문 뽑기</b></td><td>내일 드릴용 질문 10개를 미리 골라 둔다.</td></tr>
+  </table>
+  <p class="note">주말(7·14일차)은 모의고사 전체 40분 + 복기 40분 + ChatGPT 피드백으로 대체합니다.</p>
+</div>
+
+<h2>2. 고정 틀 (이것만 외운다)</h2>
+<div class="grid">
+  <div class="card">
+    <h3>공통 뼈대</h3>
+    <ol>
+      <li><b>MP (30초)</b>: 무엇 하나 + 내 감정 + 왜. <span class="en">You know, I have a bike and I really love it because it's yellow, my favorite color.</span></li>
+      <li><b>Body (40~60초)</b>: 그 한 가지만. 감정을 다른 말로 반복 + 짧은 예시 하나. 할 말이 떨어지면 99:1(나쁜 점 한 문장 후 다시 좋은 점).</li>
+      <li><b>Conclusion (한두 문장)</b>: <span class="en">So overall, … That's why I love it.</span></li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>유형별 바디 변형</h3>
+    <ul>
+      <li><b>묘사</b>: 감정 + 이유 반복. 1분 안. 집 질문은 집 안만.</li>
+      <li><b>습관</b>: 행동 위주. <span class="en">Whenever I…, I always…</span></li>
+      <li><b>경험</b>: 핵심 사건부터. 동행자 넣기. 인용 한 줄 <span class="en">and she was like, "Wow!"</span></li>
+      <li><b>비교</b>: 현재(과거 언급 없이) → 과거(정반대) → 현재 → 결론.</li>
+      <li><b>롤플레이 11</b>: 상황 한 문장 → 질문 3개(가격 포함) → 상대 답 반복 + 감정 → 고맙다. 1분.</li>
+      <li><b>롤플레이 12</b>: 문제 알림 → 대안 2개 → 확인. <b>13</b>: 문제 → 해결 과거 경험.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>2-1. 난이도는 5-5, 대사는 "뼈대 10개"만</h2>
+<div class="card">
+  <h3>왜 5-5인가 (최저선 IM2, 목표 IH)</h3>
+  <ul>
+    <li>영상들의 합의는 "IH 이상이면 5 또는 6". 똑경이와 데일리도노는 5로 AL을 받았다. 5가 IH 상한을 막지 않는다.</li>
+    <li>6은 질문이 길어지고 14·15번에서 사회·사람들 비교 같은 어려운 질문이 더 나온다. 최근 6-6 추천은 "실력이 어느 정도 준비된 사람" 기준이라고 제인서도 전제를 단다.</li>
+    <li>3-4는 질문이 짧아 오히려 뭘 말할지 막막하고 IH를 받기 어렵다는 쪽이 많다. IM2만 노려도 5가 낫다.</li>
+    <li>중간 재선택 화면에서는 "비슷한 질문". 14일차 모의고사에서 15문제 중 10개 이상이 깔끔하면 그때 6-6으로 올린다.</li>
+  </ul>
+
+  <h3>준비하는 "느낌"</h3>
+  <ul>
+    <li>면접이 아니라 <b>에바와 수다</b>. 초등 영어 단어로, 좋으면 "진짜 좋다", 싫으면 "진짜 싫다"로 감정을 과장한다.</li>
+    <li>처음 5초는 느리게 시작하고 뒤로 갈수록 속도를 올린다. 문법이 틀려도 돌아가지 않는다.</li>
+    <li>모르는 질문은 멘트 없이 10초 기다려 스킵. 15번도 스킵이 기본.</li>
+    <li>이 뼈대만 지키면 IM2는 거의 확정이고, 소재 은행과 녹음 연습이 쌓이는 만큼 IH 쪽으로 올라간다.</li>
+  </ul>
+
+  <h3>뼈대 10개 (이것만 입에 붙인다. 내용은 매번 소재 은행에서 꺼내 다른 말로)</h3>
+  <table>
+    <tr><th style="width:170px">뼈대</th><th>대사</th><th style="width:150px">메모</th></tr>
+    <tr><td>1. 자기소개 20초</td><td><span class="en">Hi Ava, nice to meet you. I'm ○○, I live in Seoul, Korea. I'm pretty laid-back, and I really love coffee. Yeah, that's about it.</span></td><td>유일하게 고정 대사 허용. 뒤에서 연결할 소재(커피) 하나만 심는다.</td></tr>
+    <tr><td>2. 시작 멘트 (생각하는 척, 천천히)</td><td><span class="en">Oh, um… let me think. Okay, so…</span><br><span class="en">Well, you know what? …</span></td><td>준비된 질문일수록 이걸로 느리게 시작.</td></tr>
+    <tr><td>3. 메인 포인트 패턴 3개</td><td>묘사: <span class="en">I live in a small apartment, and I really love it because it's so cozy.</span><br>습관: <span class="en">Whenever I have free time, I always go to this cafe near my place.</span><br>경험: <span class="en">There was a time when I dropped my phone at the park, and oh my god, I was so annoyed.</span></td><td>무엇 + 감정 + 이유. 30초 안.</td></tr>
+    <tr><td>4. 감정 문장 6개 (길게 늘여서)</td><td><span class="en">I looove it sooo much.</span> / <span class="en">It makes me feel so relaxed.</span> / <span class="en">It was absolutely amazing.</span> / <span class="en">I was so frustrated.</span> / <span class="en">It was kind of boring, honestly.</span> / <span class="en">I just can't get enough of it.</span></td><td>답변마다 3개 이상.</td></tr>
+    <tr><td>5. 이유 연결 2개</td><td><span class="en">because …</span> / <span class="en">and that's why …</span></td><td>감정 뒤에 반드시 이유.</td></tr>
+    <tr><td>6. 필러 콤보 (바디 이어가기)</td><td><span class="en">and um</span> / <span class="en">and so, you know</span> / <span class="en">but, you know, uh</span> / 다시 시작할 때 <span class="en">anyway</span></td><td>침묵 5초 금지. 한국식 "음…" 금지.</td></tr>
+    <tr><td>7. 비교 전환 한 쌍</td><td><span class="en">These days, …</span> → <span class="en">But back then, it was totally different. …</span> → <span class="en">But now, …</span></td><td>현재 → 정반대 과거 → 현재 → 결론.</td></tr>
+    <tr><td>8. 결론 2개</td><td><span class="en">So overall, …</span> / <span class="en">Yeah, that's pretty much it.</span></td><td>흐지부지 금지.</td></tr>
+    <tr><td>9. 롤플레이 11·12 (예외적으로 통째 암기)</td><td>11번: <span class="en">Hi there, I'm calling because I want to ○○. How much is it? Oh, that cheap? Only ○○? That's great! And… do you have ○○? Oh nice! Oh, I almost forgot, what are your business hours? Thank you so much for your help.</span><br>12번: <span class="en">I have something to tell you. I know we have plans on Saturday, but I don't think I can make it because something came up. How about next weekend? Or could I get a refund?</span></td><td>11번은 질문 3개 + 상대 답 반복. 12번은 문제 알림 + 대안 2개. 각 1분.</td></tr>
+    <tr><td>10. 한국 고유명사 처리</td><td><span class="en">It's called 김밥천국 in Korean… anyway,</span></td><td>말하고 바로 다음 문장으로.</td></tr>
+  </table>
+</div>
+
+<h2>3. 녹음 체크리스트 (매일 7개)</h2>
+<div class="card cl">
+  <label><input type="checkbox" data-k="cl1"> 30초 안에 결론(무엇 + 감정 + 이유)이 나왔다</label>
+  <label><input type="checkbox" data-k="cl2"> 한 가지만 말했다 (두 번째 소재로 새지 않았다)</label>
+  <label><input type="checkbox" data-k="cl3"> 감정 단어가 3개 이상 들렸다</label>
+  <label><input type="checkbox" data-k="cl4"> 5초 넘는 침묵이 없다 (필러로 채웠다)</label>
+  <label><input type="checkbox" data-k="cl5"> 결론 문장으로 끝났다 (흐지부지 X)</label>
+  <label><input type="checkbox" data-k="cl6"> 길이 1분~1분 30초 안이다</label>
+  <label><input type="checkbox" data-k="cl7"> 한국어 혼잣말, 격식 표현(moreover 등), 자기 교정("아니, 다시")이 없다</label>
+  <p class="note" style="margin-top:8px">오늘 녹음 기준으로 체크해 보는 용도입니다. 매일 초기화해서 쓰세요. <button class="btn" id="clReset">체크 초기화</button></p>
+</div>
+
+<h2>4. 21일 일정</h2>
+<div class="progress"><span class="note">진도</span><div class="bar"><i id="pbar"></i></div><span class="note" id="ptxt">0 / 21</span></div>
+
+<div class="week">
+  <h3>1주차: 틀 잡기</h3>
+  <div class="goal">목표: 어떤 질문이든 30초 안에 결론을 말할 수 있다. 소재 은행 1차 완성.</div>
+
+  <div class="day" data-d="1"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">1일차 <small>결정 + 진단</small></p>
+    <ul>
+      <li>서베이 12개, 난이도 기본값, 응시일 결정 (위 0번).</li>
+      <li>유형 10개와 콤보 순서 영상 보기 (제인서 1편).</li>
+      <li>진단 모의고사: 유튜브 모의고사 1개를 녹음기 켜고 끝까지. 점수 매기지 말고 "결론이 늦게 나오는지, 침묵이 몇 초인지, 단어가 막히는지"만 메모.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=9-E2VOnUVLk">제인서 유형 1편</a> · <a target="_blank" href="https://www.youtube.com/watch?v=jqRFErebMKg">오픽노잼 모의고사+실전 꿀팁</a> · <a target="_blank" href="https://www.youtube.com/watch?v=BLOLtPcw33s">강지완 채점 기준</a></div>
+  </div></div>
+
+  <div class="day" data-d="2"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">2일차 <small>메인 포인트 (묘사)</small></p>
+    <ul>
+      <li>오픽노잼 MP 영상 2개 보고, 묘사 질문 10개에 결론 문장만 20~30초. 오늘은 바디 없이 MP만 하루 종일.</li>
+      <li>소재 은행: 서베이 주제 4개(집, 영화, 음악, 공원)에 묘사 1줄씩.</li>
+      <li>섀도잉 1개(10분).</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=yT99smeHg24">IM 시리즈 017 (MP)</a> · <a target="_blank" href="https://www.youtube.com/watch?v=J-wgXZffhhg">IM 시리즈 019</a> · <a target="_blank" href="https://www.youtube.com/watch?v=1HN93-WqAds">짧은 문장으로 IH (감정)</a></div>
+  </div></div>
+
+  <div class="day" data-d="3"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">3일차 <small>메인 포인트 (습관·경험)</small></p>
+    <ul>
+      <li>습관 5개 + 경험 5개 질문에 MP만. 경험은 핵심 사건을 첫 문장에. 습관은 Whenever.</li>
+      <li>소재 은행: 주제 4개에 습관 1줄, 경험 2줄(하나는 짜증났던 일).</li>
+      <li>표현 줍기: Haeri Kim AL 답변에서 표현 3개.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=8mL5PRcVo3k">시험 전 총정리 (유형별 MP)</a> · <a target="_blank" href="https://www.youtube.com/watch?v=xXHeycTraTI">Haeri Kim AL 실제 답변</a></div>
+  </div></div>
+
+  <div class="day" data-d="4"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">4일차 <small>메인 포인트 (비교) + 첫 1분 답변</small></p>
+    <ul>
+      <li>비교 질문 5개 MP: "현재만" 말하는 연습. 과거는 입에 올리지 않는다.</li>
+      <li>오늘부터 1분 답변 녹음 3개 시작 (묘사 2, 습관 1). 체크리스트 시작.</li>
+      <li>섀도잉 1개.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=q0v6YretDqQ">Rule #7 + 비교 전략</a> · <a target="_blank" href="https://www.youtube.com/watch?v=Jj8hzv-j5LE">해커스 클로이 (섀도잉 방법, 결론 문장)</a></div>
+  </div></div>
+
+  <div class="day" data-d="5"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">5일차 <small>감정 채우기</small></p>
+    <ul>
+      <li>1분 답변 3개(묘사 1, 경험 2). 감정 단어를 일부러 과장해서 길게: <span class="en">I looove it sooo much.</span></li>
+      <li>소재 은행: 나머지 주제 4개(해변, 콘서트/공연, 조깅/걷기, 집에서 휴가)에 묘사·습관·경험.</li>
+      <li>표현 줍기: 주책임 영상의 AL 답변에서 3개.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=_38Au_sIJhM">주책임 IM2/IH/AL 답변 비교</a> · <a target="_blank" href="https://www.youtube.com/watch?v=OSkbM4q-sO0">영끌오픽 (감정 위주·시제)</a></div>
+  </div></div>
+
+  <div class="day" data-d="6"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">6일차 <small>프리토킹 1단계</small></p>
+    <ul>
+      <li>2~5일차에 했던 질문 3개를 다시. 첫 문장과 결론을 전날과 다르게. 녹음 두 개를 나란히 들어 보기.</li>
+      <li>MP 드릴은 서베이 밖 주제(은행, 헤드폰, 시계)로 5개 섞기.</li>
+      <li>섀도잉 1개.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=c10fjqrRMzA">양지 IM2→IH (키워드만, 템플릿)</a></div>
+  </div></div>
+
+  <div class="day" data-d="7"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">7일차 <small>모의고사 1 (주말)</small></p>
+    <ul>
+      <li>유튜브 모의고사 1회 전체, 40분 타이머, 녹음. 11~13번은 아직 전략을 안 배웠으니 틀 없이 해 보고 어디서 막히는지만 본다. 15번은 스킵.</li>
+      <li>복기: 문제별로 체크리스트 7개. 결과를 아래 "모의고사 기록"에 적는다.</li>
+      <li>ChatGPT: 녹음 전사본을 넣고 "오픽 IH 기준으로 문법·표현 피드백을 한국어로" 요청. 고친 표현 3개만 소재 은행에.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=ssiMBTmep2c">제인서 (ChatGPT 모의고사 설정법, 영상 후반)</a></div>
+  </div></div>
+</div>
+
+<div class="week">
+  <h3>2주차: 유형별 깊이 + 롤플레이</h3>
+  <div class="goal">목표: 경험·비교에서 1분 30초를 끊김 없이. 롤플레이 11·12·13 틀 완성. 14일차에 난이도 확정.</div>
+
+  <div class="day" data-d="8"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">8일차 <small>과거 경험 집중</small></p>
+    <ul>
+      <li>경험 답변 3개 녹음. 동행자 넣기, 그 사람의 감정 한 줄, 직접 인용 한 줄.</li>
+      <li>만능 에피소드 2개 확정(충격·짜증 계열 1, 기쁨 계열 1). 어느 장소에도 붙는지 3개 주제로 시험.</li>
+      <li>표현 줍기: 해커스 AL 실제 시험 영상 중 경험 문제 부분.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=LMfhERYWi0M">IM1→IH (MP+2 전략, 쉬운 단어 덧붙이기)</a> · <a target="_blank" href="https://www.youtube.com/watch?v=D4O4DrlGHBc">해커스 AL 실제 시험</a></div>
+  </div></div>
+
+  <div class="day" data-d="9"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">9일차 <small>비교 집중</small></p>
+    <ul>
+      <li>비교 답변 3개: 현재 → 정반대 과거 → 현재 → 결론. 시제가 섞이면 <span class="en">Over the years, … have changed a lot.</span>으로 다시 시작.</li>
+      <li>MP 드릴은 "A vs B" 비교(두 도시, 두 친구) 5개 포함.</li>
+      <li>섀도잉 1개.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=VB_0XOmqfAA">오픽노잼 AL 학생 모의고사 (비교·연결)</a></div>
+  </div></div>
+
+  <div class="day" data-d="10"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">10일차 <small>롤플레이 11</small></p>
+    <ul>
+      <li>패턴 암기 허용: 상황 한 문장 → 질문 3개(가격 1개 필수) → 리액션 + 상대 답 반복 + 감정 → 고맙다. 1분 안.</li>
+      <li>상황 6개(가게 전화, 여행사, 헬스장, 병원 예약, 친구에게 묻기, 수업 문의)로 각 1분 녹음.</li>
+      <li>만능 질문 외우기: <span class="en">How much is it? / What are your business hours? / Do you have any recommendations? / Is there parking? / Could you text me the details?</span></li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=IYSZeoYMsaw">오픽노잼 롤플레이 11</a> · <a target="_blank" href="https://www.youtube.com/watch?v=FxxspPejoNY">리윤 (롤플레이 만능 표현)</a></div>
+  </div></div>
+
+  <div class="day" data-d="11"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">11일차 <small>롤플레이 12·13</small></p>
+    <ul>
+      <li>12번 패턴: <span class="en">I have something to tell you. I know we have plans on Saturday, but I don't think I can make it because something came up. How about next weekend? Or could I get a refund?</span> 상황 4개로 녹음.</li>
+      <li>13번: 문제 → 해결(또는 미해결) 과거 경험. 만능 에피소드 중 짜증 계열을 붙인다.</li>
+      <li>appointment(사람 예약) / reservation(식당) / booking(선결제) / plans(친구 약속) 구분.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=jqRFErebMKg">오픽노잼 모의고사 (RP 12·13 부분)</a></div>
+  </div></div>
+
+  <div class="day" data-d="12"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">12일차 <small>돌발 주제</small></p>
+    <ul>
+      <li>돌발 8개(은행, 재활용, 가구/가전, 날씨, 교통, 건강, 인터넷, 휴일)에 한국어 키워드 1줄씩. 영어 문장 X.</li>
+      <li>그중 3개로 1분 답변 녹음. 할 말이 없으면 "경험이 없어서"라고 한 줄 하고 스킵 연습도 1번.</li>
+      <li>표현 줍기: 세라 영상(대본 없는 IH-AL 답변)에서 3개.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=3NOlORJc4E4">세라 IH-AL 실제 답변</a> · <a target="_blank" href="https://www.youtube.com/watch?v=69zizdda11s">오픽노잼 랜덤 질문 리뷰</a></div>
+  </div></div>
+
+  <div class="day" data-d="13"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">13일차 <small>자기소개·연결·천천히 시작</small></p>
+    <ul>
+      <li>자기소개 20~30초 버전 확정. 뒤에서 연결할 소재 하나(커피, 영화)만 심는다.</li>
+      <li>콤보 3문제를 이어서 녹음하면서 2·3번째 답변 첫 문장을 <span class="en">Like I said, …</span>로 앞 답변과 연결.</li>
+      <li>준비된 질문도 처음 5초는 천천히: <span class="en">Oh, um… let me think… Okay, so…</span> 뒤로 갈수록 속도 올리기.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=tiLY_fJQDj8">자기소개 안 해도 되나</a> · <a target="_blank" href="https://www.youtube.com/watch?v=EOPpAJzePgo">IM2 vs IH (천천히 시작)</a></div>
+  </div></div>
+
+  <div class="day" data-d="14"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">14일차 <small>모의고사 2 (주말) + 난이도 확정</small></p>
+    <ul>
+      <li>모의고사 전체 40분, 녹음, 15번 스킵. 롤플레이 포함 전부 틀대로.</li>
+      <li>판정: 15문제 중 "30초 안 결론 + 끊김 없음 + 결론 문장"을 만족한 답이 10개 이상이면 6-6으로 상향 가능. 7~9개면 5-5 유지. 6개 이하면 5-5로 가되 응시일을 1주 미루는 것도 검토.</li>
+      <li>ChatGPT 피드백. 반복해서 틀리는 문법 1~2개만 메모(수 일치, 과거시제).</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=Du1991kKS3M">IH만 계속 받는 학생 단점</a></div>
+  </div></div>
+</div>
+
+<div class="week">
+  <h3>3주차: 실전 리허설</h3>
+  <div class="goal">목표: 낯선 질문에도 같은 틀이 나온다. 시험 당일 루틴이 몸에 익는다.</div>
+
+  <div class="day" data-d="15"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">15일차 <small>약점 하루</small></p>
+    <ul>
+      <li>14일차 체크리스트에서 가장 많이 X가 난 항목 하나만 집중. (침묵이면 필러 콤보, 늦은 결론이면 MP 드릴 20개, 길이면 1분 타이머)</li>
+      <li>1분 답변 3개는 X가 난 유형으로만.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=AiEzJGrP6rA">IH/AL 체크리스트 (날씨 콤보)</a></div>
+  </div></div>
+
+  <div class="day" data-d="16"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">16일차 <small>필러 콤보와 속도</small></p>
+    <ul>
+      <li><span class="en">and um / and so / so, you know / but, you know, uh</span>를 답변마다 2회 이상. 한국식 "음…" 금지.</li>
+      <li>같은 질문을 느리게 1번, 보통 1번 녹음해서 "끊김 없음"과 "빠름"이 다른 것임을 확인.</li>
+      <li>섀도잉 1개.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=kfI2wOKhfvI">외국인 필러 6가지</a> · <a target="_blank" href="https://www.youtube.com/watch?v=DBTqGtMqN0I">나니 IM1~AL 답변 비교</a></div>
+  </div></div>
+
+  <div class="day" data-d="17"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">17일차 <small>모의고사 3 (실제 조건)</small></p>
+    <ul>
+      <li>책상 정리, 헤드셋, 질문 2번 듣기, 스킵은 10초 대기 후 Next. 전체 30~35분 안에 끝내기 연습.</li>
+      <li>복기는 MP 30초만 다시 듣는다. 바디는 신경 쓰지 않는다.</li>
+    </ul>
+  </div></div>
+
+  <div class="day" data-d="18"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">18일차 <small>랜덤 테스트</small></p>
+    <ul>
+      <li>준비 안 한 주제 10개(ChatGPT에 "오픽 난이도 6 돌발 질문 10개" 요청)로 MP 드릴. 8개 이상 30초 안에 결론이 나오면 준비 완료.</li>
+      <li>14번 유형(사람들·사회 비교) 2개만 1분 답변. 15번은 스킵 유지.</li>
+    </ul>
+    <div class="mat">자료: <a target="_blank" href="https://www.youtube.com/watch?v=rED8gQsF46I">복잡한 질문을 한 가지로 (15번)</a></div>
+  </div></div>
+
+  <div class="day" data-d="19"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">19일차 <small>모의고사 4 + 전체 복기</small></p>
+    <ul>
+      <li>마지막 전체 모의고사. 끝나고 소재 은행을 처음부터 훑으며 "입에 안 붙는 에피소드"는 지우고 익숙한 것으로 교체.</li>
+      <li>ChatGPT 피드백은 받되 새 표현은 더 넣지 않는다.</li>
+    </ul>
+  </div></div>
+
+  <div class="day" data-d="20"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">20일차 <small>가볍게</small></p>
+    <ul>
+      <li>MP 드릴 10개, 자기소개 1번, 롤플레이 11·12 각 1번. 30분이면 끝.</li>
+      <li>신분증, 시험장 위치, 접수 확인. 일찍 자기.</li>
+    </ul>
+  </div></div>
+
+  <div class="day" data-d="21"><div class="chk"><input type="checkbox"></div><div>
+    <p class="t">21일차 <small>시험 당일</small></p>
+    <ul>
+      <li>아침에 섀도잉 1개로 입 풀기. 새 자료는 보지 않는다.</li>
+      <li>OT: 서베이·난이도(기본 5-5)는 결정한 대로. 중간 난이도 재선택은 "비슷한 질문".</li>
+      <li>본시험: 질문 2번 듣기 → 두 번째에 MP 구상 → 천천히 시작 → 1분~1분 30초 → 결론. 모르면 스킵, 15번 스킵. 에바는 친구.</li>
+      <li>끝나고 세부진단서(3만 원) 신청 여부 결정. IH가 안 나오면 그 진단서로 재응시 1주 플랜을 짠다.</li>
+    </ul>
+  </div></div>
+</div>
+
+<h2>5. 소재 은행 (한국어 키워드만, 자동 저장)</h2>
+<div class="card">
+  <p class="note">영어 문장을 쓰지 않습니다. "무슨 이야기, 어떤 감정, 왜"를 한 줄로. 아래 칸은 이 브라우저에 저장됩니다. <button class="btn" id="bankExport">텍스트로 복사</button></p>
+  <table class="bank" id="bank">
+    <tr><th>주제</th><th>묘사 (무엇+감정+왜)</th><th>습관 (Whenever…)</th><th>경험 2개 (하나는 짜증·충격)</th><th>비교 (현재 vs 과거)</th></tr>
+    <tr><td>집</td><td><textarea data-k="b_home_d" placeholder="예: 작은 원룸, 편해서 좋다, 청소 10분"></textarea></td><td><textarea data-k="b_home_h"></textarea></td><td><textarea data-k="b_home_e"></textarea></td><td><textarea data-k="b_home_c"></textarea></td></tr>
+    <tr><td>영화·공연·콘서트</td><td><textarea data-k="b_movie_d"></textarea></td><td><textarea data-k="b_movie_h"></textarea></td><td><textarea data-k="b_movie_e"></textarea></td><td><textarea data-k="b_movie_c"></textarea></td></tr>
+    <tr><td>음악</td><td><textarea data-k="b_music_d"></textarea></td><td><textarea data-k="b_music_h"></textarea></td><td><textarea data-k="b_music_e"></textarea></td><td><textarea data-k="b_music_c"></textarea></td></tr>
+    <tr><td>공원·해변</td><td><textarea data-k="b_park_d"></textarea></td><td><textarea data-k="b_park_h"></textarea></td><td><textarea data-k="b_park_e"></textarea></td><td><textarea data-k="b_park_c"></textarea></td></tr>
+    <tr><td>카페</td><td><textarea data-k="b_cafe_d"></textarea></td><td><textarea data-k="b_cafe_h"></textarea></td><td><textarea data-k="b_cafe_e"></textarea></td><td><textarea data-k="b_cafe_c"></textarea></td></tr>
+    <tr><td>조깅·걷기·자전거</td><td><textarea data-k="b_run_d"></textarea></td><td><textarea data-k="b_run_h"></textarea></td><td><textarea data-k="b_run_e"></textarea></td><td><textarea data-k="b_run_c"></textarea></td></tr>
+    <tr><td>휴가·국내여행</td><td><textarea data-k="b_trip_d"></textarea></td><td><textarea data-k="b_trip_h"></textarea></td><td><textarea data-k="b_trip_e"></textarea></td><td><textarea data-k="b_trip_c"></textarea></td></tr>
+    <tr><td>돌발 (은행·재활용·가전·날씨·교통·건강·인터넷·휴일)</td><td colspan="4"><textarea data-k="b_misc" placeholder="주제마다 한 줄씩"></textarea></td></tr>
+    <tr><td>만능 에피소드</td><td colspan="4"><textarea data-k="b_universal" placeholder="1) 짜증·충격 계열 (예: 폰 떨어뜨려 액정 깨짐) 2) 기쁨 계열 (예: 우연히 동창 만남)"></textarea></td></tr>
+    <tr><td>주운 표현</td><td colspan="4"><textarea data-k="b_expr" placeholder="AL 영상에서 뽑은 표현, 하루 3개까지"></textarea></td></tr>
+  </table>
+</div>
+
+<h2>6. 모의고사 기록</h2>
+<div class="card">
+  <table>
+    <tr><th>회차</th><th>날짜</th><th>7개 항목 통과한 문제 수 (15개 중)</th><th>가장 많이 X가 난 항목</th><th>메모</th></tr>
+    <tr><td>1 (7일차)</td><td><textarea data-k="m1_d" style="min-height:40px"></textarea></td><td><textarea data-k="m1_n" style="min-height:40px"></textarea></td><td><textarea data-k="m1_x" style="min-height:40px"></textarea></td><td><textarea data-k="m1_m" style="min-height:40px"></textarea></td></tr>
+    <tr><td>2 (14일차)</td><td><textarea data-k="m2_d" style="min-height:40px"></textarea></td><td><textarea data-k="m2_n" style="min-height:40px"></textarea></td><td><textarea data-k="m2_x" style="min-height:40px"></textarea></td><td><textarea data-k="m2_m" style="min-height:40px"></textarea></td></tr>
+    <tr><td>3 (17일차)</td><td><textarea data-k="m3_d" style="min-height:40px"></textarea></td><td><textarea data-k="m3_n" style="min-height:40px"></textarea></td><td><textarea data-k="m3_x" style="min-height:40px"></textarea></td><td><textarea data-k="m3_m" style="min-height:40px"></textarea></td></tr>
+    <tr><td>4 (19일차)</td><td><textarea data-k="m4_d" style="min-height:40px"></textarea></td><td><textarea data-k="m4_n" style="min-height:40px"></textarea></td><td><textarea data-k="m4_x" style="min-height:40px"></textarea></td><td><textarea data-k="m4_m" style="min-height:40px"></textarea></td></tr>
+  </table>
+</div>
+
+<h2>7. 하지 말 것 (점수를 깎는 습관)</h2>
+<div class="card">
+  <ul>
+    <li><span class="tag bad">X</span> 영어 문장 스크립트를 쓰고 읽으며 외우기. 통째 외운 답은 채점자가 바로 알아챈다.</li>
+    <li><span class="tag bad">X</span> 준비된 질문에서 갑자기 빨라지기. 돌발에서 느려지는 것과 대비되어 들통난다.</li>
+    <li><span class="tag bad">X</span> 질문의 여러 항목을 전부 답하기. 한 가지만.</li>
+    <li><span class="tag bad">X</span> 틀린 문법을 되돌아가 고치기. 그냥 지나간다.</li>
+    <li><span class="tag bad">X</span> "기억이 잘 안 나는데…"로 시작하기. 본론 먼저, 변명은 뒤에.</li>
+    <li><span class="tag bad">X</span> 모르는 질문에 횡설수설하거나 "다음 질문으로 넘어갈게요" 멘트 하기. 아무 말 없이 스킵.</li>
+    <li><span class="tag bad">X</span> moreover, furthermore, in addition 같은 글쓰기 표현. 한국어 혼잣말. 한국 고유명사 설명 없이 말하기.</li>
+    <li><span class="tag bad">X</span> 40분을 꽉 채우기. 길다고 점수가 오르지 않는다.</li>
+    <li><span class="tag bad">X</span> 시험 전주에 새 표현·새 에피소드 추가하기. 19일차 이후는 빼기만 한다.</li>
+  </ul>
+</div>
+
+<h2>8. 이 플랜의 전제</h2>
+<div class="card">
+  <ul>
+    <li>독학, 평일 60분 확보 가능, 유튜브 모의고사와 ChatGPT 음성 모드를 쓸 수 있다는 가정입니다. 시간이 30분뿐인 날은 "MP 드릴 10개 + 1분 답변 1개 + 체크"만 합니다.</li>
+    <li>현재 수준을 모르는 상태에서 짰으므로 1일차 진단과 7·14일차 모의고사 결과로 속도를 조절합니다. 14일차 판정 규칙이 그 장치입니다.</li>
+    <li>근거는 함께 드린 "오픽 IH 유튜브 공통점" 보고서의 35개 영상입니다. 응시료·제도는 공식 사이트에서 확인이 필요합니다.</li>
+  </ul>
+</div>
+
+</div>
+<script>
+(function(){
+  const store = {
+    get(k){ try{ return localStorage.getItem('opic3w_'+k); }catch(e){ return null; } },
+    set(k,v){ try{ localStorage.setItem('opic3w_'+k, v); }catch(e){} },
+    del(k){ try{ localStorage.removeItem('opic3w_'+k); }catch(e){} }
+  };
+  // day checkboxes
+  const days = [...document.querySelectorAll('.day')];
+  function refresh(){
+    let n=0;
+    days.forEach(d=>{ const c=d.querySelector('input'); d.classList.toggle('done', c.checked); if(c.checked) n++; });
+    document.getElementById('pbar').style.width = Math.round(n/days.length*100)+'%';
+    document.getElementById('ptxt').textContent = n+' / '+days.length;
+  }
+  days.forEach(d=>{
+    const c=d.querySelector('input'); const k='day'+d.dataset.d;
+    c.checked = store.get(k)==='1';
+    c.addEventListener('change',()=>{ store.set(k, c.checked?'1':'0'); refresh(); });
+  });
+  refresh();
+  // checklist + textareas
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    const k=el.dataset.k;
+    if(el.type==='checkbox'){ el.checked = store.get(k)==='1'; el.addEventListener('change',()=>store.set(k, el.checked?'1':'0')); }
+    else { const v=store.get(k); if(v!==null) el.value=v; el.addEventListener('input',()=>store.set(k, el.value)); }
+  });
+  document.getElementById('clReset').addEventListener('click',()=>{
+    document.querySelectorAll('.cl input[data-k]').forEach(c=>{ c.checked=false; store.del(c.dataset.k); });
+  });
+  document.getElementById('bankExport').addEventListener('click',()=>{
+    const rows=[...document.querySelectorAll('#bank tr')].slice(1).map(tr=>{
+      const name=tr.querySelector('td').textContent.trim();
+      const vals=[...tr.querySelectorAll('textarea')].map(t=>t.value.trim()).filter(Boolean);
+      return vals.length? name+'\n  - '+vals.join('\n  - ') : null;
+    }).filter(Boolean).join('\n\n');
+    const done=()=>{ const b=document.getElementById('bankExport'); const t=b.textContent; b.textContent='복사됨'; setTimeout(()=>b.textContent=t,1200); };
+    if(navigator.clipboard){ navigator.clipboard.writeText(rows).then(done).catch(()=>{ window.prompt('복사하세요', rows); }); }
+    else window.prompt('복사하세요', rows);
+  });
+})();
+</script>
+</body>
+</html>
